@@ -55,13 +55,62 @@ const Input = styled.input.attrs((props) => ({
   padding: 0.5rem 0;
 `;
 
+const StyledTable = styled.table`
+  caption-side: top;
+  border: none;
+  border-collapse: collapse;
+  /* border-collapse: separate; */
+  /* border-spacing: 5px 10px; */
+
+  caption-side: bottom;
+  /* empty-cell: show | hide;  */
+  /* empty-cell is a property of table or the cells themselves */
+
+  /* vertical-align: baseline | sub | super | text-top | 
+                text-bottom | middle | top | bottom | 
+                <percentage> | <length> */
+
+  /* tbody {
+    vertical-align: top;
+  }              */
+  td,
+  th {
+    border: none;
+  }
+  /* td,
+  th {
+    border: 1px solid;
+  } */
+
+  td {
+    padding: 5px 10px;
+  }
+
+  tbody tr {
+    :nth-of-type(odd) {
+      background-color: #efefef;
+    }
+    :hover {
+      background-color: lightpink;
+    }
+  }
+  thead > tr {
+    background-color: #c2c2c2;
+  }
+  caption {
+    font-size: 0.9em;
+    padding: 5px;
+    font-weight: bold;
+  }
+`
+
 export const TodosList = () => {
   return (
     <div>
       <Input placeholder="placeholder text" onChange={() => {mockTodo.id = event?.target.value} } />
       <Input onChange={() => {mockTodo.status = event?.target.value} } />
       <Input onChange={() => {mockTodo.text = event?.target.value} } />
-      <Button onClick={() => change(mockTodo)}>
+      <Button onClick={() => change({id: mockTodo.id, status: mockTodo.status, text: mockTodo.text }) }  >
         Add or Change todo
       </Button>
     </div>
@@ -71,9 +120,9 @@ export const TodosList = () => {
 export const TodosList2 = () => {
   const { loading, error, data } = useStore($usersGet);
 
-  useEffect(() => {
-    getTodosFx();
-  }, []);
+  // useEffect(() => {
+  //   getTodosFx();
+  // }, []);
 
   if (loading) {
     return (
@@ -89,7 +138,29 @@ export const TodosList2 = () => {
     );
   }
 
-  const todoList = data.map((todo) => (
+   return ( <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Status</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      { data.map((todo) => {
+        return (
+          <tr key={todo.id}>
+            <td>{todo.id}</td>
+            <td>{todo.status}</td>
+            <td>{todo.text}</td>
+          </tr>
+        )
+      }) }
+      </tbody>
+      </table>)
+
+  /*const todoList = data.map((todo) => (
     <div key={todo.id}>
       <div>ID: {todo.id}</div>
       <div>Status: {todo.status}</div>
@@ -102,5 +173,5 @@ export const TodosList2 = () => {
     <div>
       {todoList}
     </div>
-  );
+  );*/
 };

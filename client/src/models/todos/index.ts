@@ -17,7 +17,7 @@ export const changeTodosFx = createEffect<ITodos, ITodos, Error>();
 
 export const $fetchError = restore<Error>(getTodosFx.failData, null);
 
-// Создаем другое хранилище, содержащий всю информацию по GET-запросу
+
 export const $usersGet = combine({
   loading: getTodosFx.pending,
   error: $fetchError,
